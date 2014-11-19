@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="ISO-8859-1" />
+	<title>Insert title here</title>
+</h:head>
+<h:body>
+	<h:form id="formTable">
+		<p:messages />
+			<p:dataTable id="dataTable" value="#{crtMunicipio.getAllMunicipios()}" var="municipio"
+				selectionMode="single" selection="#{crtMunicipio.model}"
+				rowKey="#{municipio.codigo}">
+				
+				<f:facet name="header">Lista de ceps</f:facet>
+				
+				<p:column>
+					<f:facet name="header">Descricao</f:facet>
+					<h:outputText value="#{municipio.descricao}" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Incluir" id="cbIncluir"
+						update=":form:formDetail" icon="ui-icon-document"
+						oncomplete="PF('dlg1').show()" action="#{crtMunicipio.createNewMunicipios}" />
+					<p:commandButton value="Alterar" id="cbAlterar"
+						update=":form:formDetail" icon="ui-icon-pencil"
+						oncomplete="PF('dlg1').show()" />
+					<p:commandButton value="Excluir" id="cbExcluir"
+						update=":formRemove" icon="ui-icon-trash"
+						oncomplete="PF('dlgRemove').show()" />
+				</f:facet>
+			</p:dataTable>
+	</h:form>
+	<h:form id="formRemove">
+		<p:dialog width="500" height="50" id="removeDialog" modal="true"
+			header="Confirma exclusao do registro?" widgetVar="dlgRemove">
+			<h:panelGrid columns="2">
+				<p:commandButton oncomplete="PF('dlgRemove').hide()"
+					action="#{crtMunicipio.remove}" update=":formTable" value="OK" />
+				<p:commandButton immediate="true" update=":formTable" value="Cancel"
+					oncomplete="PF('dlgRemove').hide()" />
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+	<h:form id="form">
+		<p:dialog width="500" height="300" id="detailDialog" modal="true"
+			header="Detalhe do cep" widgetVar="dlg1">
+			<h:panelGrid id="formDetail" columns="2">
+				
+				<h:outputLabel name="lblDescricao" value="Descricao" />
+				<p:inputText id="txtDesc" label="lblDescricao"
+					value="#{crtMunicipio.model.descricao}" />					
+				
+				<p:commandButton value="OK" oncomplete="PF('dlg1').hide()" id="cbOK"
+					action="#{crtMunicipio.saveMunicipio}" update=":formTable" />
+				<p:commandButton value="Cancelar" id="cbCancelar"
+					oncomplete="PF('dlg1').hide()" update=":formTable" />
+			</h:panelGrid>
+
+
+		</p:dialog>
+	</h:form>
+
+</h:body>
+</html>

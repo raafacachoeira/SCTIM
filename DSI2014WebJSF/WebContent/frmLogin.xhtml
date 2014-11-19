@@ -1,0 +1,33 @@
+<ui:composition template="/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="content">
+
+		<h:form>
+			<p:commandButton value="Login" onclick="PF('dlg').show();"
+				title="login" icon="ui-icon-power" />
+
+
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+			<p:dialog header="Login" widgetVar="dlg" resizable="false"
+				modal="true" draggable="false" appendTo="@(body)" >
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="usuario" value="Username:" />
+					<p:inputText id="usuario" value="#{crtLogin.usuario}" required="true" label="username" />
+
+					<h:outputLabel for="senha" value="Password:" />
+					<p:password id="senha" value="#{crtLogin.senha}" required="true" label="senha" />
+
+					<f:facet name="footer">
+						<p:commandButton value="Login" update="growl" actionListener="#{crtLogin.login}" 
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

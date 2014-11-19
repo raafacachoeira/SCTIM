@@ -1,0 +1,139 @@
+<ui:composition template="/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="content">
+		<p:panel>
+
+			<h:form id="formTable">
+				<p:messages />
+				<p:dataTable id="dataTable" value="#{crtEquipamento.getAllEquipamentos()}"
+					var="equipamento" selectionMode="single"
+					selection="#{crtEquipamento.model}" rowKey="#{equipamento.oid}">
+
+					<f:facet name="header">Equipamentos</f:facet>
+					
+					<p:column>
+						<f:facet name="header">modelo</f:facet>
+						<h:outputText value="#{equipamento.modelo}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">numeroSerie</f:facet>
+						<h:outputText value="#{equipamento.numeroSerie}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">memoria</f:facet>
+						<h:outputText value="#{equipamento.memoria}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">hd</f:facet>
+						<h:outputText value="#{equipamento.hd}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">fonte</f:facet>
+						<h:outputText value="#{equipamento.fonte}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">placaMae</f:facet>
+						<h:outputText value="#{equipamento.placaMae}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">marca</f:facet>
+						<h:outputText value="#{equipamento.marca}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">mac</f:facet>
+						<h:outputText value="#{equipamento.mac}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">ip</f:facet>
+						<h:outputText value="#{equipamento.ip}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">nomePc</f:facet>
+						<h:outputText value="#{equipamento.nomePc}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">dominio</f:facet>
+						<h:outputText value="#{equipamento.dominio}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">impInstaladas</f:facet>
+						<h:outputText value="#{equipamento.impInstaladas}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">pastasMapeadas</f:facet>
+						<h:outputText value="#{equipamento.pastasMapeadas}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">numPatrimonio</f:facet>
+						<h:outputText value="#{equipamento.numPatrimonio}" />
+					</p:column>
+					
+					<f:facet name="footer">
+						<p:commandButton value="Incluir" id="cbIncluir"
+							update=":form:formDetail" icon="ui-icon-document"
+							oncomplete="PF('dlg1').show()"
+							action="#{crtEquipamento.createNewEquipamentos}" />
+						<p:commandButton value="Alterar" id="cbAlterar"
+							update=":form:formDetail" icon="ui-icon-pencil"
+							oncomplete="PF('dlg1').show()" />
+						<p:commandButton value="Excluir" id="cbExcluir"
+							update=":formRemove" icon="ui-icon-trash"
+							oncomplete="PF('dlgRemove').show()" />
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+
+		</p:panel>
+
+		<p:dialog id="removeDialog" modal="true"
+			header="Confirma exclusao do registro?" widgetVar="dlgRemove"
+			appendTo="@(body)" resizable="false" draggable="false">
+			<h:form id="formRemove">
+				<h:panelGrid columns="2">
+					<p:commandButton oncomplete="PF('dlgRemove').hide()"
+						action="#{crtEquipamento.remove}" update=":formTable" value="Sim" />
+					<p:commandButton immediate="true" update=":formTable" value="Nao"
+						oncomplete="PF('dlgRemove').hide()" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="detailDialog" modal="true"
+			header="Incluir/Alterar Registro" widgetVar="dlg1" appendTo="@(body)"
+			resizable="false" draggable="false">
+			<h:form id="form">
+				<h:panelGrid id="formDetail" columns="2">
+					<h:outputLabel name="lblModelo" value="Modelo" />
+					<p:inputText id="txtModelo" label="lblModelo"
+						value="#{crtEquipamento.model.modelo}" />
+
+					<h:outputLabel name="lblNumeroSerie" value="Numero Serie" />
+					<p:inputText id="txtNumeroSerie" label="lblNumeroSerie" value="#{crtEquipamento.model.numeroSerie}" />
+
+					<h:outputLabel name="lblMemoria" value="Memoria" />
+					<p:inputText id="txtMemoria" label="lblMemoria"
+						value="#{crtEquipamento.model.memoria}" />
+
+
+					<h:outputLabel name="lblHd" value="Hd" />
+					<p:inputText id="txtHd" label="lblHd"
+						value="#{crtEquipamento.model.hd}" />
+
+					<p:commandButton value="OK" oncomplete="PF('dlg1').hide()"
+						id="cbOK" action="#{crtEquipamento.saveEquipamento}" update=":formTable" />
+					<p:commandButton value="Cancelar" id="cbCancelar"
+						oncomplete="PF('dlg1').hide()" update=":formTable" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

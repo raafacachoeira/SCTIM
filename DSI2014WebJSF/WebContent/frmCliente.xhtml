@@ -1,0 +1,58 @@
+<ui:composition template="/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="content">
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+		<p:dataTable id="cars2" var="cliente"
+			value="#{crtCliente.getAllClientes()}" editable="true"
+			editMode="cell" widgetVar="cellCars">
+			<f:facet name="header">CLIENTES</f:facet>
+
+			<p:ajax event="cellEdit" listener="#{dtEditView.onCellEdit}"
+				update=":form:msgs" />
+
+			<p:column headerText="Oid">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cliente.oid}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="modelInput" value="#{cliente.oid}"
+							style="width:96%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Nome">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cliente.nome}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{cliente.nome}" style="width:96%"
+							label="Year" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Endereco">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cliente.endereco}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{cliente.endereco}" style="width:96%"
+							label="Year" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+</ui:define>
+</ui:composition>

@@ -1,0 +1,116 @@
+<ui:composition template="/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="content">
+		<p:panel>
+
+			<h:form id="formTable">
+				<p:messages />
+				<p:dataTable id="dataTable" value="#{crtEmpresa.getAllEmpresas()}"
+					var="empresa" selectionMode="single"
+					selection="#{crtEmpresa.model}" rowKey="#{empresa.oid}">
+
+					<f:facet name="header">Empresas</f:facet>
+					
+					<p:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{empresa.nome}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">CNPJ</f:facet>
+						<h:outputText value="#{empresa.cnpj}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Razao Social</f:facet>
+						<h:outputText value="#{empresa.razaoSocial}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">Endereco</f:facet>
+						<h:outputText value="#{empresa.endereco}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Fone</f:facet>
+						<h:outputText value="#{empresa.fone}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Email</f:facet>
+						<h:outputText value="#{empresa.email}" />
+					</p:column>
+					
+					
+					<f:facet name="footer">
+						<p:commandButton value="Incluir" id="cbIncluir"
+							update=":form:formDetail" icon="ui-icon-document"
+							oncomplete="PF('dlg1').show()"
+							action="#{crtEmpresa.createNewEmpresas()}" />
+						<p:commandButton value="Alterar" id="cbAlterar"
+							update=":form:formDetail" icon="ui-icon-pencil"
+							oncomplete="PF('dlg1').show()" />
+						<p:commandButton value="Excluir" id="cbExcluir"
+							update=":formRemove" icon="ui-icon-trash"
+							oncomplete="PF('dlgRemove').show()" />
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+
+		</p:panel>
+
+		<p:dialog id="removeDialog" modal="true"
+			header="Confirma exclusao do registro?" widgetVar="dlgRemove"
+			appendTo="@(body)" resizable="false" draggable="false">
+			<h:form id="formRemove">
+				<h:panelGrid columns="2">
+					<p:commandButton oncomplete="PF('dlgRemove').hide()"
+						action="#{crtEmpresa.remove}" update=":formTable" value="Sim" />
+					<p:commandButton immediate="true" update=":formTable" value="Nao"
+						oncomplete="PF('dlgRemove').hide()" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="detailDialog" modal="true"
+			header="Incluir/Alterar Registro" widgetVar="dlg1" appendTo="@(body)"
+			resizable="false" draggable="false">
+			<h:form id="form">
+				<h:panelGrid id="formDetail" columns="2">
+					<h:outputLabel name="lblNome" value="Nome" />
+					<p:inputText id="txtNome" label="lblNome"
+						value="#{crtEmpresa.model.Nome}" />
+
+					<h:outputLabel name="lblCNPJ" value="CNPJ" />
+					<p:inputText id="txtCNPJ" label="lblCNPJ" value="#{crtEmpresa.model.cnpj}" />
+
+					<h:outputLabel name="lblRazaoSocial" value="Razao Social" />
+					<p:inputText id="txtRazaoSocial" label="lblRazaoSocial"
+						value="#{crtEmpresa.model.razaoSocial}" />
+
+
+					<h:outputLabel name="lblEndereco" value="Endereco" />
+					<p:inputText id="txtEndereco" label="lblEndereco"
+						value="#{crtEmpresa.model.endereco}" />
+						
+						<h:outputLabel name="lblFone" value="Fone" />
+					<p:inputText id="txtFone" label="lblFone" placeholder="(47) 9999-9999"
+						value="#{crtEmpresa.model.fone}" />
+						
+						<h:outputLabel name="lblEmail" value="Email" />
+					<p:inputText id="txtEmail" label="lblEmail" placeholder="email@provedor.com"
+						value="#{crtEmpresa.model.email}" />
+
+					<p:commandButton value="OK" oncomplete="PF('dlg1').hide()"
+						id="cbOK" action="#{crtEmpresa.saveEmpresa}" update=":formTable" />
+					<p:commandButton value="Cancelar" id="cbCancelar"
+						oncomplete="PF('dlg1').hide()" update=":formTable" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

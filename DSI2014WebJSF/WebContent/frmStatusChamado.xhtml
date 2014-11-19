@@ -1,0 +1,76 @@
+<ui:composition template="/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="content">
+		<p:panel>
+
+			<h:form id="formTable">
+				<p:messages />
+				<p:dataTable id="dataTable"
+					value="#{crtStatusChamado.getAllStatusChamados()}"
+					var="statusChamado" selectionMode="single"
+					selection="#{crtStatusChamado.model}" rowKey="#{statusChamado.oid}">
+
+					<f:facet name="header">Status de Chamados</f:facet>
+
+					<p:column>
+						<f:facet name="header">Descricao</f:facet>
+						<h:outputText value="#{statusChamado.descStatus}" />
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Incluir" id="cbIncluir"
+							update=":form:formDetail" icon="ui-icon-document"
+							oncomplete="PF('dlg1').show()"
+							action="#{crtStatusChamado.createNewStatusChamados}" />
+						<p:commandButton value="Alterar" id="cbAlterar"
+							update=":form:formDetail" icon="ui-icon-pencil"
+							oncomplete="PF('dlg1').show()" />
+						<p:commandButton value="Excluir" id="cbExcluir"
+							update=":formRemove" icon="ui-icon-trash"
+							oncomplete="PF('dlgRemove').show()" />
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+
+		</p:panel>
+
+		<p:dialog id="removeDialog" modal="true"
+			header="Confirma exclusao do registro?" widgetVar="dlgRemove"
+			appendTo="@(body)" resizable="false" draggable="false">
+			<h:form id="formRemove">
+				<h:panelGrid columns="2">
+					<p:commandButton oncomplete="PF('dlgRemove').hide()"
+						action="#{crtStatusChamado.remove}" update=":formTable"
+						value="Sim" />
+					<p:commandButton immediate="true" update=":formTable" value="Nao"
+						oncomplete="PF('dlgRemove').hide()" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="detailDialog" modal="true"
+			header="Incluir/Alterar Registro" widgetVar="dlg1" appendTo="@(body)"
+			resizable="false" draggable="false">
+			<h:form id="form">
+				<h:panelGrid id="formDetail" columns="2">
+					<h:outputLabel name="lblNumpatrimonio" value="Descricao" />
+					<p:inputText id="txtNumpatrimonio" label="lblNumpatrimonio"
+						value="#{crtStatusChamado.model.descStatus}" />
+
+					<p:commandButton value="OK" oncomplete="PF('dlg1').hide()"
+						id="cbOK" action="#{crtStatusChamado.saveStatusChamado}"
+						update=":formTable" />
+					<p:commandButton value="Cancelar" id="cbCancelar"
+						oncomplete="PF('dlg1').hide()" update=":formTable" />
+
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>

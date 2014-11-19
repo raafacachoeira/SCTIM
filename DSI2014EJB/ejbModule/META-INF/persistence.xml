@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+    <!--Nome do contexto que configura o Provedor de Persistência -->
+    <persistence-unit name="dsi2014context">
+    	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>jdbc/MySQL</jta-data-source>
+        <properties>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+			<property name="eclipselink.target-database" value="MYSQL"/>      
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+        </properties>
+        
+    </persistence-unit>
+</persistence>
+
+
+
