@@ -46,11 +46,19 @@ public class Depreciacao implements Serializable {
 	private List<Contabil> colContabeis = new ArrayList<Contabil>();
 	
 	//fetch.eager - se trouxer o pai ja traz o filho, perde performance, imagina que traz um pedido com 10.000 itens, isso é ruim
-	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH}, optional=false, fetch=FetchType.EAGER)
+	//@OneToOne(cascade={CascadeType.MERGE, CascadeType.REFRESH}, optional=false, fetch=FetchType.EAGER)
 	private Setor setor;
 	
 	//GETTERS AND SETTERS
 	
+	public Setor getSetor() {
+		return setor;
+	}
+
+	public void setSetor(Setor setor) {
+		this.setor = setor;
+	}
+
 	public int getOid() {
 		return oid;
 	}
